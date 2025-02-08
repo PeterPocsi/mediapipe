@@ -255,8 +255,10 @@ absl::Status UpdateFaceLandmarksCalculator::Process(CalculatorContext* cc) {
     refined_face_landmarks->mutable_landmark(id)->set_x(refined_ld.x());
     refined_face_landmarks->mutable_landmark(id)->set_y(refined_ld.y());
     refined_face_landmarks->mutable_landmark(id)->set_z(refined_ld.z());
-    refined_face_landmarks->mutable_landmark(id)->set_visibility(
+    if (refined_ld.has_visibility()) {
+      refined_face_landmarks->mutable_landmark(id)->set_visibility(
         refined_ld.visibility());
+    }
   }
   cc->Outputs()
       .Tag(kUpdatedFaceLandmarksTag)
